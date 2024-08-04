@@ -84,6 +84,7 @@ const CreateProduct = () => {
       });
       setIsOpen(false);
       resetForm();
+      setProductImagePreview("");
       refreshProducts();
     },
   });

@@ -4,14 +4,24 @@ interface IProduct {
   price: number;
 }
 
-type RoleType = "USER" | "ADMIN";
-
+type RoleType = "ADMIN" | "USER";
 interface IUser {
   id: string;
   fullName: string;
   phoneNumber: string;
   role: RoleType;
   createdAt: Date;
+}
+
+interface IAddress {
+  id: string;
+  userId: string;
+  city: string;
+  address: string;
+  phoneNumber: string;
+  floor: number;
+  unit: number;
+  postalCode: number;
 }
 
 interface ICategory {
@@ -33,4 +43,34 @@ interface IProduct {
   totalQuantitySold: number;
   totalSalesAmount: number;
   createdAt: Date;
+}
+
+enum OrderStatus {
+  PENDING,
+  PROCESSING,
+  SHIPPED,
+  DELIVERED,
+  CANCELED,
+}
+
+interface IOrder {
+  id: string;
+  user: {
+    fullName: string;
+    phoneNumber: string;
+  };
+  orderItems: IOrderItem[];
+  address: IAddress;
+  totalPrice: number;
+  status: OrderStatus;
+  createdAt: Date;
+}
+
+interface IOrderItem {
+  id: string;
+  product: {
+    name: string;
+  };
+  quantity: number;
+  price: number;
 }

@@ -42,3 +42,20 @@ export function removeFalsyValues(
 
   return result;
 }
+
+export function orderStatusHandler(status: OrderStatus) {
+  switch (status) {
+    case OrderStatus.PENDING:
+      return "در حال انتظار";
+    case OrderStatus.PROCESSING:
+      return "در حال پردازش";
+    case OrderStatus.SHIPPED:
+      return "در حال ارسال";
+    case OrderStatus.DELIVERED:
+      return "نکمیل سفارش";
+    case OrderStatus.CANCELED:
+      return "سفارش کنسل شد";
+    default:
+      return "مقدار نا معتبر";
+  }
+}

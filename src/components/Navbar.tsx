@@ -9,7 +9,9 @@ import {
   LogOut,
   MapPin,
   Menu,
+  Shield,
   ShoppingCart,
+  UserCog2,
   UserRound,
   UserRoundPen,
   X,
@@ -32,6 +34,12 @@ const NAV_LINKS = [
   { text: "محصولات", href: "/products" },
   { text: "درباره ما", href: "/about-us" },
   { text: "تماس با ما", href: "/contact-us" },
+];
+
+const DROPDOWN_MENU_ITEMS = [
+  { text: "مدیریت حساب", href: "/dashboard", icon: UserRoundPen },
+  { text: "آدرس های من", href: "/dashboard/addresses", icon: MapPin },
+  { text: "سفارش های من", href: "/dashboard/orders", icon: ShoppingCart },
 ];
 
 const Navbar = () => {
@@ -131,31 +139,43 @@ const Navbar = () => {
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-2 cursor-pointer">
                 <div className="bg-zinc-100 p-3 rounded-full">
-                  <UserRound className="w-5 h-5" />
+                  {user.role === "ADMIN" ? (
+                    <UserCog2 className="w-5 h-5" />
+                  ) : (
+                    <UserRound className="w-5 h-5" />
+                  )}
                 </div>
                 <span className="font-yekan-bakh-heavy">{user?.fullName}</span>
                 <ChevronDown className="w-5 h-5" />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="min-w-[200px]">
               <DropdownMenuLabel>حساب من</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="gap-2">
-                <UserRoundPen className="w-5 h-5" />
-                <Link href="/dashboard">مدیریت حساب</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <MapPin className="w-5 h-5" />
-                <Link href="/dashboard/addresses">آدرس های من</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <ShoppingCart className="w-5 h-5" />
-                <Link href="/dashboard/orders">سفارش های من</Link>
-              </DropdownMenuItem>
+              {user.role === "ADMIN" && (
+                <DropdownMenuItem className="gap-2">
+                  <Shield className="w-5 h-5" />
+                  <Link href="/admin" className="w-full">
+                    پنل ادمین
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              {DROPDOWN_MENU_ITEMS.map((item, i) => {
+                const Icon = item.icon;
+
+                return (
+                  <DropdownMenuItem className="gap-2">
+                    <Icon className="w-5 h-5" />
+                    <Link href={item.href} className="w-full">
+                      {item.text}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <button
-                  className="gap-2 flex items-center text-red-600"
+                  className="w-full gap-2 flex items-center text-red-600"
                   onClick={logoutUser}
                 >
                   <LogOut className="w-5 h-5" />

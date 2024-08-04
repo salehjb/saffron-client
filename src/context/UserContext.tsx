@@ -55,5 +55,5 @@ export const logoutUser = () => {
   removeAccessToken();
   removeRefreshToken();
   location.reload();
-  location.replace("http://localhost:3000/")
+  location.replace("http://localhost:3000/");
 };
