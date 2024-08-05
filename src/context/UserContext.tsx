@@ -26,9 +26,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     queryKey: ["profile"],
     queryFn: async () => {
       if (!accessToken) return;
-      const { data } = await api.get("/profile/get-me", {
-        headers: { authorization: accessToken },
-      });
+      const { data } = await api.get("/profile/get-me");
       const user = data.data.user;
       setUser(user);
     },

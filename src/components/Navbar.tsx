@@ -10,6 +10,7 @@ import {
   MapPin,
   Menu,
   Shield,
+  ShoppingBasket,
   ShoppingCart,
   UserCog2,
   UserRound,
@@ -28,6 +29,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/DropdownMenu";
+import { useCart } from "@/context/CartContext";
+import CartSheet from "./cart/CartSheet";
 
 const NAV_LINKS = [
   { text: "صفحه اصلی", href: "/" },
@@ -47,6 +50,7 @@ const Navbar = () => {
 
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
+  const { cart } = useCart();
 
   useEffect(() => {
     setIsOpenMenu(false);
@@ -135,55 +139,60 @@ const Navbar = () => {
         ) : user === null ? (
           <AuthButtonNavbar />
         ) : (
-          <DropdownMenu dir="rtl">
-            <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <div className="bg-zinc-100 p-3 rounded-full">
-                  {user.role === "ADMIN" ? (
-                    <UserCog2 className="w-5 h-5" />
-                  ) : (
-                    <UserRound className="w-5 h-5" />
-                  )}
+          <div className="flex items-center gap-2">
+            <CartSheet />
+            <DropdownMenu dir="rtl">
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-1 cursor-pointer">
+                  <div className="bg-zinc-100 h-10 w-10 flex justify-center items-center rounded-full">
+                    {user.role === "ADMIN" ? (
+                      <UserCog2 className="w-5 h-5" />
+                    ) : (
+                      <UserRound className="w-5 h-5" />
+                    )}
+                  </div>
+                  <span className="font-yekan-bakh-heavy">
+                    {user?.fullName}
+                  </span>
+                  <ChevronDown className="w-5 h-5" />
                 </div>
-                <span className="font-yekan-bakh-heavy">{user?.fullName}</span>
-                <ChevronDown className="w-5 h-5" />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="min-w-[200px]">
-              <DropdownMenuLabel>حساب من</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {user.role === "ADMIN" && (
-                <DropdownMenuItem className="gap-2">
-                  <Shield className="w-5 h-5" />
-                  <Link href="/admin" className="w-full">
-                    پنل ادمین
-                  </Link>
-                </DropdownMenuItem>
-              )}
-              {DROPDOWN_MENU_ITEMS.map((item, i) => {
-                const Icon = item.icon;
-
-                return (
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="min-w-[200px]">
+                <DropdownMenuLabel>حساب من</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {user.role === "ADMIN" && (
                   <DropdownMenuItem className="gap-2">
-                    <Icon className="w-5 h-5" />
-                    <Link href={item.href} className="w-full">
-                      {item.text}
+                    <Shield className="w-5 h-5" />
+                    <Link href="/admin" className="w-full">
+                      پنل ادمین
                     </Link>
                   </DropdownMenuItem>
-                );
-              })}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <button
-                  className="w-full gap-2 flex items-center text-red-600"
-                  onClick={logoutUser}
-                >
-                  <LogOut className="w-5 h-5" />
-                  <p>خروج از حساب</p>
-                </button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                )}
+                {DROPDOWN_MENU_ITEMS.map((item, i) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <DropdownMenuItem className="gap-2">
+                      <Icon className="w-5 h-5" />
+                      <Link href={item.href} className="w-full">
+                        {item.text}
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <button
+                    className="w-full gap-2 flex items-center text-red-600"
+                    onClick={logoutUser}
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <p>خروج از حساب</p>
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         )}
       </div>
     </div>

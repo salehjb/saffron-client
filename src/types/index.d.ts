@@ -13,6 +13,25 @@ interface IUser {
   createdAt: Date;
 }
 
+interface ICart {
+  items: ICartItem[];
+}
+
+interface ICartProduct {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+}
+
+interface ICartItem {
+  id: string;
+  productId: string;
+  cartId: string;
+  product: ICartProduct;
+  quantity: number;
+}
+
 interface IAddress {
   id: string;
   userId: string;

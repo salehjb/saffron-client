@@ -3,7 +3,7 @@
 import { ImageIcon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 import { FC, useState } from "react";
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "./Skeleton";
 
 interface SkeletonImageProps extends ImageProps {}
 
