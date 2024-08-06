@@ -6,6 +6,7 @@ import { Loader2, Minus, Plus, Trash2 } from "lucide-react";
 import {
   useAddToCartMutation,
   useDecreaseFromCartMutation,
+  useRemoveFromCartMutation,
 } from "@/mutations/cartMutations";
 
 interface CartItemBoxProps extends HTMLAttributes<HTMLLIElement> {
@@ -15,6 +16,7 @@ interface CartItemBoxProps extends HTMLAttributes<HTMLLIElement> {
 
 const CartItemBox: FC<CartItemBoxProps> = ({ item, refreshCart, ...props }) => {
   const [localLoading, setLocalLoading] = useState<boolean>(false);
+  const [removeLoading, setRemoveLoading] = useState<boolean>(false);
 
   const addMutation = useAddToCartMutation(async () => {
     await refreshCart();
@@ -24,6 +26,11 @@ const CartItemBox: FC<CartItemBoxProps> = ({ item, refreshCart, ...props }) => {
   const decreaseMutation = useDecreaseFromCartMutation(async () => {
     await refreshCart();
     setLocalLoading(false);
+  });
+
+  const removeMutation = useRemoveFromCartMutation(async () => {
+    await refreshCart();
+    setRemoveLoading(false);
   });
 
   return (
@@ -41,8 +48,17 @@ const CartItemBox: FC<CartItemBoxProps> = ({ item, refreshCart, ...props }) => {
         <Button
           size="icon"
           className="w-8 h-8 bg-transparent border border-red-500 hover:bg-red-200 text-red-500"
+          onClick={() => {
+            setRemoveLoading(true);
+            removeMutation.mutate(item.id);
+          }}
+          disabled={removeLoading}
         >
-          <Trash2 className="w-4 h-4" />
+          {removeLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Trash2 className="w-4 h-4" />
+          )}
         </Button>
         <div className="flex items-center gap-3">
           <Button

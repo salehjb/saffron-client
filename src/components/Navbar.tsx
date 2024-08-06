@@ -163,7 +163,7 @@ const Navbar = () => {
                 {user.role === "ADMIN" && (
                   <DropdownMenuItem className="gap-2">
                     <Shield className="w-5 h-5" />
-                    <Link href="/admin" className="w-full">
+                    <Link href="/admin" className="w-full" rel="nofollow">
                       پنل ادمین
                     </Link>
                   </DropdownMenuItem>

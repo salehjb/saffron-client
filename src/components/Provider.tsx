@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import {
   QueryClient,
   QueryClientProvider,
@@ -18,22 +18,42 @@ interface ProviderProps {
 }
 
 const Provider: FC<ProviderProps> = ({ children }) => {
-  const queryClient = new QueryClient();
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+    []
+  );
 
   const pathname = usePathname();
 
-  const isAdminRoute = pathname.startsWith("/admin");
+  const navbarNotShowRoutes = ["/admin"];
+  const footerNotShowRoutes = ["/admin"];
+
+  const showNavbar = !navbarNotShowRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+  const showFooter = !footerNotShowRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <CartProvider>
-          {!isAdminRoute && <Navbar />}
-          <div className={`${!isAdminRoute ? "mt-14 lg:mt-20" : ""}`}>
-            {children}
-          </div>
+          {showNavbar && (
+            <div className="mb-16">
+              <Navbar />
+            </div>
+          )}
+          <div>{children}</div>
           <Toaster />
-          {!isAdminRoute && <Footer />}
+          {showFooter && <Footer />}
         </CartProvider>
       </UserProvider>
     </QueryClientProvider>

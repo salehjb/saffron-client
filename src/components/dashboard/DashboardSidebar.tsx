@@ -1,30 +1,29 @@
 "use client";
 
 import { logoutUser, useUser } from "@/context/UserContext";
+import { cn } from "@/lib/utils";
 import {
+  CircleGauge,
   House,
-  ListTree,
   Loader2,
   LogOut,
-  PackageSearch,
-  ShoppingBasket,
+  MapPin,
+  ShoppingBag,
   UserRound,
-  UsersRound,
+  UserRoundPen,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, buttonVariants } from "../ui/Button";
-import { cn } from "@/lib/utils";
 
 const SIDEBAR_LINKS = [
-  { text: "صفحه اصلی ادمین", href: "/admin", icon: House },
-  { text: "کاربران", href: "/admin/users", icon: UsersRound },
-  { text: "محصولات", href: "/admin/products", icon: PackageSearch },
-  { text: "دسته بندی ها", href: "/admin/categories", icon: ListTree },
-  { text: "سفارشات", href: "/admin/orders", icon: ShoppingBasket },
+  { text: "داشبورد", href: "/dashboard", icon: CircleGauge },
+  { text: "پروفایل", href: "/dashboard/profile", icon: UserRoundPen },
+  { text: "آدرس ها", href: "/dashboard/addresses", icon: MapPin },
+  { text: "سفارشات", href: "/dashboard/orders", icon: ShoppingBag },
 ];
 
-const Sidebar = () => {
+const DashboardSidebar = () => {
   const { user, isUserLoading } = useUser();
 
   const pathname = usePathname();
@@ -41,9 +40,7 @@ const Sidebar = () => {
             )}
           </div>
           {!isUserLoading && (
-            <span className="font-yekan-bakh-heavy">
-              {user?.fullName} ( ادمین )
-            </span>
+            <span className="font-yekan-bakh-heavy">{user?.fullName}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -91,4 +88,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default DashboardSidebar;

@@ -1,23 +1,11 @@
 "use client";
 
-import { Loader2, Minus, Plus, ShoppingBasket, Trash2 } from "lucide-react";
+import { Loader2, ShoppingBasket } from "lucide-react";
 import { Button } from "../ui/Button";
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTrigger,
-} from "../ui/Sheet";
+import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "../ui/Sheet";
 import { useCart } from "@/context/CartContext";
-import SkeletonImage from "../ui/SkeletonImage";
-import { separatePrice } from "@/lib";
-import { useState } from "react";
-import {
-  useAddToCartMutation,
-  useDecreaseFromCartMutation,
-} from "@/mutations/cartMutations";
 import CartItemBox from "./CartItemBox";
+import { Select, SelectTrigger, SelectValue } from "../ui/Select";
 
 const CartSheet = () => {
   const { cart, refreshCart } = useCart();
@@ -33,7 +21,6 @@ const CartSheet = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
-        <SheetHeader></SheetHeader>
         {!cart ? (
           <Loader2 className="w-7 h-7 animate-spin mx-auto" />
         ) : (
@@ -50,7 +37,18 @@ const CartSheet = () => {
                 />
               ))}
             </ul>
-            <SheetFooter></SheetFooter>
+            <SheetFooter className="w-full p-4 m-0 absolute left-0 bottom-0 border-t">
+              <div className="w-full flex flex-col gap-2">
+                <Select dir="rtl">
+                  <SelectTrigger>
+                    <SelectValue placeholder="آدرس را انتخاب کنید" />
+                  </SelectTrigger>
+                </Select>
+                <Button className="bg-[var(--saffron-light)] hover:bg-[var(--saffron-dark)]">
+                  ثبت سفارش
+                </Button>
+              </div>
+            </SheetFooter>
           </>
         )}
       </SheetContent>

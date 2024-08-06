@@ -3,7 +3,7 @@ import { InstagramIcon, TelegramIcon, WhatsappIcon } from "./ui/MyIcons";
 
 const Footer = () => {
   return (
-    <div className="mt-14 bg-[var(--saffron-dark)] py-4">
+    <div className="mt-16 bg-[var(--saffron-dark)] py-4">
       <div className="container">
         <div className="flex justify-center gap-3 border-b border-zinc-300 pb-4">
           <div className="relative w-10 h-8">
