@@ -35,11 +35,17 @@ interface ICartItem {
 interface IAddress {
   id: string;
   userId: string;
-  city: string;
+  isReceiverMe: boolean;
+  province: IProvince;
+  city: ICity;
   address: string;
-  phoneNumber: string;
+  receiverInformation: {
+    fullName: string;
+    phoneNumber: string;
+  };
   floor: number;
   unit: number;
+  houseNumber: string;
   postalCode: number;
 }
 
@@ -92,4 +98,21 @@ interface IOrderItem {
   };
   quantity: number;
   price: number;
+}
+
+interface IProvince {
+  id: number;
+  title: string;
+  slug: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface ICity {
+  id: number;
+  title: string;
+  slug: string;
+  province_id: number;
+  latitude: number;
+  longitude: number;
 }

@@ -47,6 +47,7 @@ const DROPDOWN_MENU_ITEMS = [
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
 
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
@@ -141,7 +142,11 @@ const Navbar = () => {
         ) : (
           <div className="flex items-center gap-2">
             <CartSheet />
-            <DropdownMenu dir="rtl">
+            <DropdownMenu
+              dir="rtl"
+              open={isOpenDropdown}
+              onOpenChange={setIsOpenDropdown}
+            >
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-1 cursor-pointer">
                   <div className="bg-zinc-100 h-10 w-10 flex justify-center items-center rounded-full">
@@ -163,7 +168,12 @@ const Navbar = () => {
                 {user.role === "ADMIN" && (
                   <DropdownMenuItem className="gap-2">
                     <Shield className="w-5 h-5" />
-                    <Link href="/admin" className="w-full" rel="nofollow">
+                    <Link
+                      href="/admin"
+                      className="w-full"
+                      rel="nofollow"
+                      onClick={() => setIsOpenDropdown(false)}
+                    >
                       پنل ادمین
                     </Link>
                   </DropdownMenuItem>
@@ -172,9 +182,13 @@ const Navbar = () => {
                   const Icon = item.icon;
 
                   return (
-                    <DropdownMenuItem className="gap-2">
+                    <DropdownMenuItem key={i} className="gap-2">
                       <Icon className="w-5 h-5" />
-                      <Link href={item.href} className="w-full">
+                      <Link
+                        href={item.href}
+                        className="w-full"
+                        onClick={() => setIsOpenDropdown(false)}
+                      >
                         {item.text}
                       </Link>
                     </DropdownMenuItem>

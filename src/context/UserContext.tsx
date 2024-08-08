@@ -12,6 +12,7 @@ import React, { createContext, useContext, useState } from "react";
 interface UserContextType {
   user: IUser | null;
   isUserLoading: boolean;
+  isUser: boolean;
   refreshUser: () => void;
 }
 
@@ -21,6 +22,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const accessToken = getAccessToken();
 
   const [user, setUser] = useState<IUser | null>(null);
+  const [isUser, setIsUser] = useState<boolean>(!!accessToken);
 
   const { refetch: refreshUser, isLoading } = useQuery({
     queryKey: ["profile"],
@@ -34,7 +36,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, isUserLoading: isLoading, refreshUser }}
+      value={{ user, isUserLoading: isLoading, isUser, refreshUser }}
     >
       {children}
     </UserContext.Provider>

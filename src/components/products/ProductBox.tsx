@@ -13,6 +13,7 @@ import {
   useAddToCartMutation,
   useDecreaseFromCartMutation,
 } from "@/mutations/cartMutations";
+import { useUser } from "@/context/UserContext";
 
 interface ProductBoxProps extends HTMLAttributes<HTMLDivElement> {
   product: IProduct;
@@ -21,6 +22,7 @@ interface ProductBoxProps extends HTMLAttributes<HTMLDivElement> {
 export const ProductBox: FC<ProductBoxProps> = ({ product, ...props }) => {
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
+  const { user, isUser } = useUser();
   const { cart, refreshCart } = useCart();
 
   const addMutation = useAddToCartMutation(async () => {
@@ -37,7 +39,7 @@ export const ProductBox: FC<ProductBoxProps> = ({ product, ...props }) => {
     (item) => item.productId === product.id
   );
 
-  if (!cart) {
+  if (isUser && !cart) {
     return <SkeletonProductBox />;
   }
 

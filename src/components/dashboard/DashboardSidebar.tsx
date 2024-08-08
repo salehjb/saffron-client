@@ -71,11 +71,7 @@ const DashboardSidebar = () => {
             <li key={i}>
               <Link
                 href={link.href}
-                className={`flex items-center gap-2 bg-zinc-100 hover:bg-zinc-200 transition-colors p-3 rounded-md ${
-                  pathname === link.href
-                    ? "border-2 border-zinc-400 font-yekan-bakh-bold"
-                    : ""
-                }`}
+                className="flex items-center gap-2 bg-zinc-100 hover:bg-zinc-200 transition-colors p-3 rounded-md"
               >
                 <Icon className="w-5 h-5" />
                 <span className="text-sm">{link.text}</span>

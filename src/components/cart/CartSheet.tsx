@@ -5,10 +5,18 @@ import { Button } from "../ui/Button";
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "../ui/Sheet";
 import { useCart } from "@/context/CartContext";
 import CartItemBox from "./CartItemBox";
-import { Select, SelectTrigger, SelectValue } from "../ui/Select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/Select";
+import { useUserAddresses } from "@/queries/userQueries";
 
 const CartSheet = () => {
   const { cart, refreshCart } = useCart();
+  const { addresses, isUserAddressesLoading } = useUserAddresses();
 
   return (
     <Sheet>
@@ -43,6 +51,16 @@ const CartSheet = () => {
                   <SelectTrigger>
                     <SelectValue placeholder="آدرس را انتخاب کنید" />
                   </SelectTrigger>
+                  <SelectContent>
+                    {addresses?.map((address) => (
+                      <SelectItem
+                        key={address.id}
+                        value={address.id}
+                      >
+                        {address.city.title}، {address.address}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
                 <Button className="bg-[var(--saffron-light)] hover:bg-[var(--saffron-dark)]">
                   ثبت سفارش
